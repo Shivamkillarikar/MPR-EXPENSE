@@ -4,12 +4,18 @@ import PastSplits from "./Component/PastSplits";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Use BrowserRouter and Routes in React Router v6
 import BillSplitting from "./Component/BillSplitting";
 import QRScanner from "./Component/QRScanner";
+import Register from "./Component/Register";
+import AuthForm from "./Component/AuthForm";
+
+
 
 function App() {
   return (
    <div>
       <Router>
         <Routes>
+          <Route path="/auth" element={<AuthForm />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/details" element={<Details />} />
           <Route path="/past-splits" element={<PastSplits />} />
           <Route path="/bill-split" element={<BillSplitting />} />

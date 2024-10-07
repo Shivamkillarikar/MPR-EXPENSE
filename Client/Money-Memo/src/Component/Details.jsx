@@ -150,6 +150,7 @@ const Details = () => {
               <button
                 type="submit"
                 className="bg-teal-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-teal-600 focus:outline-none focus:ring-4 focus:ring-teal-300"
+                disabled={formData.members.length<4 && formData.splitType==="group"}
               >
                 Submit
               </button>
