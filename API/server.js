@@ -1,40 +1,45 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const expenseRoutes = require('./Routes/expenseRoutes');
+const budgetexpenseRoute = require('./Routes/budgetexpenseRoute');
+const budgetRoutes = require('./Routes/budgetRoutes')
+const TrackerRoue=require("./Routes/trackerRoue");
 require("dotenv").config()
-//const errorHandler = require('./Middleware/');
+
+
 
 // Initialize app
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use('/api/budget', budgetRoutes);
+//app.use('/api/expenses', budgetexpenseRoute);
+app.use('/api/expenses', TrackerRoue);
+
 // Connect to MongoDB
-// mongoose.connect('mongodb://localhost:27017/splikaro', {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-// });
+mongoose.connect('mongodb://localhost:27017/splikaro', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 
 //const mongoose = require('mongoose');
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => {
-  console.log('MongoDB connected successfully!');
-})
-.catch((err) => {
-  console.error('MongoDB connection error:', err);
-});
+// mongoose.connect(process.env.MONGO_URI, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// })
+// .then(() => {
+//   console.log('MongoDB connected successfully!');
+// })
+// .catch((err) => {
+//   console.error('MongoDB connection error:', err);
+// });
 
-// Use routes
-app.use('/api', expenseRoutes);
 
-// Error handling middleware
-//app.use(errorHandler);
+
+
 
 // Start server
 app.listen(5000, () => {

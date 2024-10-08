@@ -1,10 +1,12 @@
-import { useState } from 'react';
+// AuthForm.jsx
+import { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
 import Navbar from './Navbar';
+ // Assuming you have a UserContext to manage global user state
 
 const AuthForm = () => {
-  const [isRegister, setIsRegister] = useState(true); // Toggle between register and login
+  const [isRegister, setIsRegister] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,7 +14,8 @@ const AuthForm = () => {
     confirmPassword: '',
   });
 
-  const navigate = useNavigate(); 
+  const { setUserEmail } = useContext(UserContext); // Get the setUserEmail function from context
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,24 +26,35 @@ const AuthForm = () => {
     e.preventDefault();
     try {
       if (isRegister) {
+        // Check if passwords match before registering
         if (formData.password !== formData.confirmPassword) {
           alert("Passwords do not match");
           return;
         }
+        // Register user
         await axios.post('http://localhost:5000/api/register', formData);
         alert('Registration Successful!');
       } else {
-        await axios.post('http://localhost:5000/api/login', { email: formData.email, password: formData.password });
+        // Login user
+        const response = await axios.post('http://localhost:5000/api/login', { 
+          email: formData.email, 
+          password: formData.password 
+        });
+        
+        // Set user email in context after successful login
+        setUserEmail(formData.email);
         alert('Login Successful!');
       }
-      navigate('/dashboard');
+      // Navigate to budget page after successful auth
+      navigate('/budget'); 
     } catch (error) {
       console.error('Error during authentication:', error);
-      alert('Authentication failed!');
+      alert('Authentication failed!'); // Display error to user
     }
   };
 
   const toggleForm = () => {
+    // Toggle between Register and Login forms
     setIsRegister(!isRegister);
     setFormData({
       name: '',
@@ -55,7 +69,9 @@ const AuthForm = () => {
       <Navbar />
       <div className="min-h-screen flex items-center justify-center bg-gray-100 bg-[#AFEEEE]">
         <div className="bg-[#66CDAA] shadow-lg rounded-xl p-12 w-full max-w-lg">
-          <h2 className="text-3xl font-bold text-center text-teal-600 mb-6">{isRegister ? 'Register' : 'Login'}</h2>
+          <h2 className="text-3xl font-bold text-center text-teal-600 mb-6">
+            {isRegister ? 'Register' : 'Login'}
+          </h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             {isRegister && (
               <div>
@@ -71,7 +87,6 @@ const AuthForm = () => {
                 />
               </div>
             )}
-
             <div>
               <label className="block text-gray-700 font-medium mb-2">Email</label>
               <input
@@ -84,7 +99,6 @@ const AuthForm = () => {
                 required
               />
             </div>
-
             <div>
               <label className="block text-gray-700 font-medium mb-2">Password</label>
               <input
@@ -97,7 +111,6 @@ const AuthForm = () => {
                 required
               />
             </div>
-
             {isRegister && (
               <div>
                 <label className="block text-gray-700 font-medium mb-2">Confirm Password</label>
@@ -112,7 +125,6 @@ const AuthForm = () => {
                 />
               </div>
             )}
-
             <div className="flex justify-center">
               <button
                 type="submit"
@@ -122,7 +134,6 @@ const AuthForm = () => {
               </button>
             </div>
           </form>
-
           <div className="mt-4 text-center">
             <button
               onClick={toggleForm}
