@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const budgetexpenseRoute = require('./Routes/budgetexpenseRoute');
 const budgetRoutes = require('./Routes/budgetRoutes')
 const TrackerRoue=require("./Routes/trackerRoue");
+const expenseRoutes=require('./Routes/expenseRoutes')
 require("dotenv").config()
 
 
@@ -14,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/budget', budgetRoutes);
-//app.use('/api/expenses', budgetexpenseRoute);
+app.use('/api', expenseRoutes);
 app.use('/api/expenses', TrackerRoue);
 
 // Connect to MongoDB

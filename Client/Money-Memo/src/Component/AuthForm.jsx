@@ -1,9 +1,8 @@
-// AuthForm.jsx
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
 import Navbar from './Navbar';
- // Assuming you have a UserContext to manage global user state
+
 
 const AuthForm = () => {
   const [isRegister, setIsRegister] = useState(true);
@@ -14,7 +13,6 @@ const AuthForm = () => {
     confirmPassword: '',
   });
 
-  const { setUserEmail } = useContext(UserContext); // Get the setUserEmail function from context
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -36,13 +34,12 @@ const AuthForm = () => {
         alert('Registration Successful!');
       } else {
         // Login user
-        const response = await axios.post('http://localhost:5000/api/login', { 
+        await axios.post('http://localhost:5000/api/login', { 
           email: formData.email, 
           password: formData.password 
         });
         
         // Set user email in context after successful login
-        setUserEmail(formData.email);
         alert('Login Successful!');
       }
       // Navigate to budget page after successful auth

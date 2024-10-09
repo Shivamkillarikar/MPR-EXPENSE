@@ -1,13 +1,13 @@
 const express = require('express');
-const Budget = require('../Models/BudgetPlanning');
+// const Budget = require('../Models/BudgetPlanning');
 const Expense = require('../Models/Expense');
 const {
     splitExpense,
     getPastSplits,
     registerUser,
-    loginUser,
-    updateBudget,
-    addExpensee
+    loginUser
+    // updateBudget,
+    // addExpensee
 } = require('../Controllers/expenseController');
 
 const router = express.Router();
@@ -25,9 +25,9 @@ router.post('/register', registerUser);
 router.post('/login', loginUser);
 
 // PUT route for setting budget
-router.put('/setBudget', updateBudget);
+// router.put('/setBudget', updateBudget);
 
 // POST route for adding an expense
-router.post('/add', addExpensee);
+ //router.post('/add', addExpensee);
 
 module.exports = router;
